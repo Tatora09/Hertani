@@ -2,7 +2,7 @@ package com.example.hertani.model
 
 object CalculadoraPuntaje {
     const val PUNTAJE_MIN = 1
-    const val PUNTAJE_MAX = 7
+    const val PUNTAJE_MAX = 4
 
     fun calcular(puntajes: Map<Long, Int>, criterios: List<Criterio>): Double {
         val pesoTotal = criterios.sumOf { it.peso }

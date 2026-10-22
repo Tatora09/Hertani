@@ -22,3 +22,11 @@ data class PuntajeCriterio(
     val puntaje: Int,
     val observacion: String
 )
+
+data class DetallePuntaje(
+    val evaluacionId: Long,
+    val criterioNombre: String,
+    val peso: Int,
+    val puntaje: Int,
+    val observacion: String
+)

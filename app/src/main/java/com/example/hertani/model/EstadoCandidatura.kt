@@ -5,7 +5,7 @@ enum class EstadoCandidatura(val etiqueta: String) {
     EN_EVALUACION("En Evaluación"),
     EVALUADA("Evaluada"),
     SELECCIONADA("Seleccionada"),
-    NO_SELLECIONADA("No Seleccionada");
+    NO_SELECCIONADA("No Seleccionada");
 
     val decision: Boolean
         get() = this == SELECCIONADA || this == NO_SELECCIONADA
