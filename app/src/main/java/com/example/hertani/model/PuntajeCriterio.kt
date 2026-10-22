@@ -13,7 +13,7 @@ import androidx.room.PrimaryKey
         ForeignKey(entity = Criterio::class, parentColumns = ["id"],
             childColumns = ["criterioId"], onDelete = ForeignKey.CASCADE)
     ],
-    indices = [Index("evaluacionId"), Index("criterioId")]
+    indices = [Index(value = ["evaluacionId"]), Index(value = ["criterioId"])]
 )
 data class PuntajeCriterio(
     @PrimaryKey(autoGenerate = true) val id: Long = 0,
