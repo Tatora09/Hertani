@@ -14,6 +14,7 @@ import com.example.hertani.model.Sesion
 import com.example.hertani.ui.screens.LoginScreen
 import com.example.hertani.ui.viewmodel.SesionViewModel
 import com.example.hertani.ui.screens.CandidatasScreen
+import com.example.hertani.ui.screens.CandidataFormScreen
 
 private const val DURACION = 320
 
@@ -53,8 +54,18 @@ fun NavHost(
             if (sesion != null) {
                 CandidatasScreen(
                     sesion = sesion,
-                    onNueva = { mostrarMensaje("Formulario: pantalla pendiente") },
+                    onNueva = { navController.navigate(Rutas.NUEVA_CANDIDATA) },
                     onAbrir = { mostrarMensaje("Detalle: pantalla pendiente") }
+                )
+            }
+        }
+
+        composable(Rutas.NUEVA_CANDIDATA) {
+            if (sesion != null) {
+                CandidataFormScreen(
+                    sesion = sesion,
+                    onVolver = { navController.popBackStack() },
+                    mostrarMensaje = mostrarMensaje
                 )
             }
         }
