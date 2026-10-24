@@ -20,4 +20,7 @@ object Acciones {
     const val EVALUACION_REGISTRADA = "Evaluación registrada"
     const val EVALUACION_DUPLICADA = "Intento de evaluación duplicada"
     const val CANDIDATA_RESUELTA = "Candidatura resuelta"
+    const val CONSULTA_CV = "Consulta de CV"
+    const val CONSULTA_PERFIL = "Consulta de perfil profesional"
+    const val COMPARTIR = "Resumen compartido"
 }
