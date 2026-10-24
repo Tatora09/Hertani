@@ -40,4 +40,10 @@ class CalculadoraPuntajeTest {
         assertEquals("En desarrollo", CalculadoraPuntaje.categoria(40.0))
         assertEquals("Insuficiente", CalculadoraPuntaje.categoria(39.9))
     }
+
+    @Test fun niveles_de_la_escala() {
+        assertEquals("Insuficiente", CalculadoraPuntaje.nivel(1))
+        assertEquals("Destacado", CalculadoraPuntaje.nivel(4))
+        assertEquals("Sin asignar", CalculadoraPuntaje.nivel(null))
+    }
 }

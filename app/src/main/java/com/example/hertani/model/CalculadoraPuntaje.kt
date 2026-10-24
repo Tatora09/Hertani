@@ -17,4 +17,12 @@ object CalculadoraPuntaje {
         total >= 40 -> "En desarrollo"
         else -> "Insuficiente"
     }
+
+    fun nivel(puntaje: Int?): String = when (puntaje) {
+        1 -> "Insuficiente"
+        2 -> "Básico"
+        3 -> "Competente"
+        4 -> "Destacado"
+        else -> "Sin asignar"
+    }
 }
