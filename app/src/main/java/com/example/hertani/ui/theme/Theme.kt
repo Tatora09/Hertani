@@ -1,6 +1,5 @@
 package com.example.hertani.ui.theme
 
-import android.app.Activity
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
@@ -9,35 +8,33 @@ import androidx.compose.material3.dynamicDarkColorScheme
 import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 
-private val DarkColorScheme = darkColorScheme(
-    primary = Purple80,
-    secondary = PurpleGrey80,
-    tertiary = Pink80
+private val EsquemaClaro = lightColorScheme(
+    primary = Cobre40, onPrimary = Color.White,
+    primaryContainer = Cobre90, onPrimaryContainer = Cobre10,
+    secondary = Verde40, onSecondary = Color.White,
+    secondaryContainer = Verde90, onSecondaryContainer = Verde10,
+    tertiary = Ocre40, onTertiary = Color.White,
+    tertiaryContainer = Ocre90, onTertiaryContainer = Ocre10,
+    background = Fondo, surface = Fondo
 )
 
-private val LightColorScheme = lightColorScheme(
-    primary = Purple40,
-    secondary = PurpleGrey40,
-    tertiary = Pink40
-
-    /* Other default colors to override
-    background = Color(0xFFFFFBFE),
-    surface = Color(0xFFFFFBFE),
-    onPrimary = Color.White,
-    onSecondary = Color.White,
-    onTertiary = Color.White,
-    onBackground = Color(0xFF1C1B1F),
-    onSurface = Color(0xFF1C1B1F),
-    */
+private val EsquemaOscuro = darkColorScheme(
+    primary = Cobre80, onPrimary = Cobre10,
+    primaryContainer = Cobre30, onPrimaryContainer = Cobre90,
+    secondary = Verde80, onSecondary = Verde10,
+    secondaryContainer = Verde30, onSecondaryContainer = Verde90,
+    tertiary = Ocre80, onTertiary = Ocre10,
+    tertiaryContainer = Ocre30, onTertiaryContainer = Ocre90,
+    background = FondoOscuro, surface = FondoOscuro
 )
 
 @Composable
 fun HertaniTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
-    // Dynamic color is available on Android 12+
-    dynamicColor: Boolean = true,
+    dynamicColor: Boolean = false,
     content: @Composable () -> Unit
 ) {
     val colorScheme = when {
@@ -45,14 +42,8 @@ fun HertaniTheme(
             val context = LocalContext.current
             if (darkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
         }
-
-        darkTheme -> DarkColorScheme
-        else -> LightColorScheme
+        darkTheme -> EsquemaOscuro
+        else -> EsquemaClaro
     }
-
-    MaterialTheme(
-        colorScheme = colorScheme,
-        typography = Typography,
-        content = content
-    )
+    MaterialTheme(colorScheme = colorScheme, typography = Tipografia, content = content)
 }
