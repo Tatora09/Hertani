@@ -15,6 +15,9 @@ import com.example.hertani.ui.screens.LoginScreen
 import com.example.hertani.ui.viewmodel.SesionViewModel
 import com.example.hertani.ui.screens.CandidatasScreen
 import com.example.hertani.ui.screens.CandidataFormScreen
+import androidx.navigation.NavType
+import androidx.navigation.navArgument
+import com.example.hertani.ui.screens.DetalleCandidataScreen
 
 private const val DURACION = 320
 
@@ -27,6 +30,7 @@ fun NavHost(
     mostrarMensaje: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
+    val argumentoId = listOf(navArgument(Rutas.ARG_ID) { type = NavType.LongType })
     NavHost(
         navController = navController,
         startDestination = Rutas.LOGIN,
@@ -55,7 +59,7 @@ fun NavHost(
                 CandidatasScreen(
                     sesion = sesion,
                     onNueva = { navController.navigate(Rutas.NUEVA_CANDIDATA) },
-                    onAbrir = { mostrarMensaje("Detalle: pantalla pendiente") }
+                    onAbrir = { id -> navController.navigate(Rutas.detalle(id)) }
                 )
             }
         }
@@ -65,6 +69,17 @@ fun NavHost(
                 CandidataFormScreen(
                     sesion = sesion,
                     onVolver = { navController.popBackStack() },
+                    mostrarMensaje = mostrarMensaje
+                )
+            }
+        }
+
+        composable(Rutas.DETALLE, arguments = argumentoId) {
+            if (sesion != null) {
+                DetalleCandidataScreen(
+                    sesion = sesion,
+                    onVolver = { navController.popBackStack() },
+                    onEvaluar = { mostrarMensaje("Evaluación: pantalla pendiente") },
                     mostrarMensaje = mostrarMensaje
                 )
             }
