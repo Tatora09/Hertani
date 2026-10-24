@@ -27,7 +27,7 @@ object AppViewModelProvider {
                 app().container.evaluacionRepository
             )
         }
-        initializer { ResultadosViewModel(app().container.evaluacionRepository) }
+        initializer { ResultadosViewModel(app().container.evaluacionRepository, app().container.historialRepository) }
         initializer { HistorialViewModel(app().container.historialRepository) }
     }
 }
