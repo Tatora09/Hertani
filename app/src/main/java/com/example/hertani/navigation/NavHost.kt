@@ -4,21 +4,23 @@ import androidx.compose.animation.AnimatedContentTransitionScope
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.example.hertani.model.Sesion
-import com.example.hertani.ui.screens.LoginScreen
-import com.example.hertani.ui.viewmodel.SesionViewModel
-import com.example.hertani.ui.screens.CandidatasScreen
-import com.example.hertani.ui.screens.CandidataFormScreen
-import androidx.navigation.NavType
 import androidx.navigation.navArgument
+import com.example.hertani.model.Sesion
+import com.example.hertani.ui.screens.CandidataFormScreen
+import com.example.hertani.ui.screens.CandidatasScreen
 import com.example.hertani.ui.screens.DetalleCandidataScreen
 import com.example.hertani.ui.screens.EvaluacionScreen
+import com.example.hertani.ui.screens.HistorialScreen
+import com.example.hertani.ui.screens.LoginScreen
+import com.example.hertani.ui.screens.PerfilScreen
+import com.example.hertani.ui.screens.ResultadosScreen
+import com.example.hertani.ui.viewmodel.SesionViewModel
 
 private const val DURACION = 320
 
@@ -31,7 +33,9 @@ fun NavHost(
     mostrarMensaje: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
+
     val argumentoId = listOf(navArgument(Rutas.ARG_ID) { type = NavType.LongType })
+
     NavHost(
         navController = navController,
         startDestination = Rutas.LOGIN,
@@ -55,12 +59,37 @@ fun NavHost(
                 }
             )
         }
+
         composable(Rutas.CANDIDATAS, enterTransition = { fadeIn(tween(DURACION)) }) {
             if (sesion != null) {
                 CandidatasScreen(
                     sesion = sesion,
                     onNueva = { navController.navigate(Rutas.NUEVA_CANDIDATA) },
                     onAbrir = { id -> navController.navigate(Rutas.detalle(id)) }
+                )
+            }
+        }
+        composable(Rutas.RESULTADOS, enterTransition = { fadeIn(tween(DURACION)) }) {
+            if (sesion != null) {
+                ResultadosScreen(
+                    sesion = sesion,
+                    onAbrir = { id -> navController.navigate(Rutas.detalle(id)) }
+                )
+            }
+        }
+        composable(Rutas.HISTORIAL, enterTransition = { fadeIn(tween(DURACION)) }) {
+            HistorialScreen()
+        }
+        composable(Rutas.PERFIL, enterTransition = { fadeIn(tween(DURACION)) }) {
+            if (sesion != null) {
+                PerfilScreen(
+                    sesion = sesion,
+                    onCerrarSesion = {
+                        sesionViewModel.cerrarSesion()
+                        navController.navigate(Rutas.LOGIN) {
+                            popUpTo(navController.graph.id) { inclusive = true }
+                        }
+                    }
                 )
             }
         }
@@ -74,7 +103,6 @@ fun NavHost(
                 )
             }
         }
-
         composable(Rutas.DETALLE, arguments = argumentoId) {
             if (sesion != null) {
                 DetalleCandidataScreen(
@@ -85,7 +113,6 @@ fun NavHost(
                 )
             }
         }
-
         composable(Rutas.EVALUAR, arguments = argumentoId) {
             if (sesion != null) {
                 EvaluacionScreen(
@@ -93,12 +120,6 @@ fun NavHost(
                     onVolver = { navController.popBackStack() },
                     mostrarMensaje = mostrarMensaje
                 )
-            }
-        }
-
-        DestinoPrincipal.entries.filter { it != DestinoPrincipal.CANDIDATAS }.forEach { destino ->
-            composable(destino.ruta, enterTransition = { fadeIn(tween(DURACION)) }) {
-                Text("${destino.etiqueta} (pantalla pendiente)")
             }
         }
     }
