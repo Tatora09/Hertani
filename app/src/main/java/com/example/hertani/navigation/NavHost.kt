@@ -18,6 +18,7 @@ import com.example.hertani.ui.screens.CandidataFormScreen
 import androidx.navigation.NavType
 import androidx.navigation.navArgument
 import com.example.hertani.ui.screens.DetalleCandidataScreen
+import com.example.hertani.ui.screens.EvaluacionScreen
 
 private const val DURACION = 320
 
@@ -79,7 +80,17 @@ fun NavHost(
                 DetalleCandidataScreen(
                     sesion = sesion,
                     onVolver = { navController.popBackStack() },
-                    onEvaluar = { mostrarMensaje("Evaluación: pantalla pendiente") },
+                    onEvaluar = { id -> navController.navigate(Rutas.evaluar(id)) },
+                    mostrarMensaje = mostrarMensaje
+                )
+            }
+        }
+
+        composable(Rutas.EVALUAR, arguments = argumentoId) {
+            if (sesion != null) {
+                EvaluacionScreen(
+                    sesion = sesion,
+                    onVolver = { navController.popBackStack() },
                     mostrarMensaje = mostrarMensaje
                 )
             }
