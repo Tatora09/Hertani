@@ -181,20 +181,20 @@ fun Modifier.sacudir(disparador: Int): Modifier {
         }
     }
     return this.offset { IntOffset(desplazamiento.value.roundToInt(), 0) }
+}
 
-    @Composable
-    fun EstadoChipTexto(texto: String, activo: Boolean, modifier: Modifier = Modifier) {
-        val fondo by animateColorAsState(
-            if (activo) VerdeExitoContenedor else MaterialTheme.colorScheme.errorContainer,
-            label = "fondoChip"
+@Composable
+fun EstadoChipTexto(texto: String, activo: Boolean, modifier: Modifier = Modifier) {
+    val fondo by animateColorAsState(
+        if (activo) VerdeExitoContenedor else MaterialTheme.colorScheme.errorContainer,
+        label = "fondoChip"
+    )
+    Surface(shape = RoundedCornerShape(50), color = fondo, modifier = modifier) {
+        Text(
+            texto,
+            style = MaterialTheme.typography.labelSmall,
+            color = if (activo) VerdeExito else MaterialTheme.colorScheme.onErrorContainer,
+            modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp)
         )
-        Surface(shape = RoundedCornerShape(50), color = fondo, modifier = modifier) {
-            Text(
-                texto,
-                style = MaterialTheme.typography.labelSmall,
-                color = if (activo) VerdeExito else MaterialTheme.colorScheme.onErrorContainer,
-                modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp)
-            )
-        }
     }
 }

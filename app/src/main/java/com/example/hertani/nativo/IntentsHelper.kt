@@ -12,6 +12,21 @@ object IntentsHelper {
         return iniciar(context, Intent(Intent.ACTION_VIEW, Uri.parse(url.trim())))
     }
 
+    fun abrirDocumento(context: Context, uriString: String?): Boolean {
+        if (uriString.isNullOrBlank()) return false
+        return try {
+            val uri = Uri.parse(uriString)
+            val intent = Intent(Intent.ACTION_VIEW).apply {
+                setDataAndType(uri, "application/pdf")
+                addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+                clipData = android.content.ClipData.newRawUri("", uri)
+            }
+            iniciar(context, intent)
+        } catch (e: Exception) {
+            false
+        }
+    }
+
     fun compartirTexto(context: Context, titulo: String, texto: String): Boolean {
         val envio = Intent(Intent.ACTION_SEND).apply {
             type = "text/plain"

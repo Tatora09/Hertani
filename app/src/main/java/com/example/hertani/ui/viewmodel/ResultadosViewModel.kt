@@ -3,14 +3,14 @@ package com.example.hertani.ui.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.hertani.data.repository.EvaluacionRepository
+import com.example.hertani.data.repository.HistorialRepository
+import com.example.hertani.model.Acciones
 import com.example.hertani.model.ResultadoConsolidado
 import com.example.hertani.util.formatearPuntaje
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
-import com.example.hertani.data.repository.HistorialRepository
-import com.example.hertani.model.Acciones
 import kotlinx.coroutines.launch
 
 data class ResultadosUiState(
@@ -47,11 +47,11 @@ class ResultadosViewModel(
         s.resultados.forEachIndexed { i, r ->
             appendLine("${i + 1}. ${r.nombre} — ${formatearPuntaje(r.promedio)} pts (${r.cantidadEvaluaciones} eval.) · ${r.estado.etiqueta}")
         }
+    }
 
     fun registrarCompartir(usuario: String) {
-         viewModelScope.launch {
-             historialRepository.registrar(null, Acciones.COMPARTIR, "Resultados consolidados", usuario)
-            }
+        viewModelScope.launch {
+            historialRepository.registrar(null, Acciones.COMPARTIR, "Resultados consolidados", usuario)
         }
     }
 }

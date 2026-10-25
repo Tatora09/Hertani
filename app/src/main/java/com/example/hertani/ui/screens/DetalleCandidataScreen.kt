@@ -149,7 +149,11 @@ fun DetalleCandidataScreen(
                     Antecedentes(
                         candidata = candidata,
                         onVerCv = {
-                            mostrarMensaje("Visor de CV: pendiente")
+                            if (IntentsHelper.abrirDocumento(context, candidata.cvUri)) {
+                                viewModel.registrarAccion(Acciones.CONSULTA_CV, candidata.cvNombre ?: "CV.pdf", sesion.nombre)
+                            } else {
+                                mostrarMensaje("No se pudo abrir el archivo CV (verifica tener un visor PDF instalado)")
+                            }
                         },
                         onAbrirPerfil = {
                             if (IntentsHelper.abrirEnlace(context, candidata.linkedinUrl)) {
