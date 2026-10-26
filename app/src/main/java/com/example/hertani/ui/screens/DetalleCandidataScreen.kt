@@ -249,7 +249,7 @@ private fun Antecedentes(candidata: Candidata, onVerCv: () -> Unit, onAbrirPerfi
                     Spacer(Modifier.width(6.dp))
                     Text("Ver CV")
                 }
-                OutlinedButton(onClick = onAbrirPerfil, modifier = Modifier.weight(1f)) {
+                OutlinedButton(onClick = onAbrirPerfil, enabled = candidata.linkedinUrl.isNotBlank(), modifier = Modifier.weight(1f)) {
                     Icon(Icons.Filled.Link, contentDescription = null, Modifier.size(18.dp))
                     Spacer(Modifier.width(6.dp))
                     Text("Perfil", maxLines = 1)

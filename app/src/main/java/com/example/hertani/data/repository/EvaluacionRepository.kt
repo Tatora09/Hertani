@@ -11,6 +11,7 @@ import com.example.hertani.model.EstadoCandidatura
 import com.example.hertani.model.Evaluacion
 import com.example.hertani.model.PuntajeCriterio
 import com.example.hertani.model.ResultadoConsolidado
+import com.example.hertani.util.formatearPuntaje
 import kotlinx.coroutines.flow.Flow
 
 class EvaluacionDuplicadaException(mensaje: String) : Exception(mensaje)
@@ -96,7 +97,7 @@ class EvaluacionRepository(
                 historial.registrar(
                     candidataId = candidataId,
                     accion = Acciones.EVALUACION_REGISTRADA,
-                    detalle = "${candidata.nombre}: ${"%.1f".format(total)} pts · ${nuevoEstado.etiqueta}",
+                    detalle = "${candidata.nombre}: ${formatearPuntaje(total)} pts · ${nuevoEstado.etiqueta}",
                     usuario = evaluadora.trim()
                 )
                 total
