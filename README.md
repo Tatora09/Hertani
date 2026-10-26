@@ -8,7 +8,6 @@
 - Renato Qevedo
 - Hernaldo Silva
 - **Asignatura**: Desarrollo de Aplicaciones Móviles (DSY1105)
-- **Sección / Equipo**: [Tu Sección] - Equipo N° [Número de Equipo]
 
 ## Funcionalidades Principales
 - **Autenticación y Gestión de Roles**: Inicio de sesión con diferenciación de perfiles (Evaluadora y Dirección).
