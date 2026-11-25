@@ -7,7 +7,7 @@ import com.example.hertani.model.Candidata
 import com.example.hertani.model.EstadoCandidatura
 import kotlinx.coroutines.flow.Flow
 
-class CandidataRepository(
+class CandidataRepository @JvmOverloads constructor(
     private val dao: CandidataDao,
     private val historial: HistorialRepository,
     private val api: com.example.hertani.data.network.ApiService = RetrofitClient.apiService
@@ -33,7 +33,6 @@ class CandidataRepository(
                     }
                 }
             }
-            // Sincronizar cambios locales o remover eliminados si es necesario
         } catch (e: Exception) {
             // Fallback offline
         }
