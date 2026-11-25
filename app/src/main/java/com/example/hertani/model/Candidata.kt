@@ -13,6 +13,7 @@ data class Candidata(
     @PrimaryKey(autoGenerate = true) val id: Long = 0,
     val nombre: String,
     val correo: String,
+    val telefono: String? = null,
     val area: String,
     val aniosExperiencia: Int,
     val resumenExperiencia: String,
