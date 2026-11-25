@@ -11,7 +11,6 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
-import kotlinx.coroutines.launch
 
 data class CandidatasUiState(
     val candidatas: List<Candidata> = emptyList(),
@@ -28,12 +27,6 @@ class CandidatasViewModel(repository: CandidataRepository) : ViewModel() {
 
     private val filtroEstado = MutableStateFlow<EstadoCandidatura?>(null)
     private val filtroArea = MutableStateFlow<String?>(null)
-
-    init {
-        viewModelScope.launch {
-            repository.sincronizarConServidor()
-        }
-    }
 
     val uiState: StateFlow<CandidatasUiState> =
         combine(repository.observarTodas(), _busqueda, filtroEstado, filtroArea) { lista, texto, estado, area ->

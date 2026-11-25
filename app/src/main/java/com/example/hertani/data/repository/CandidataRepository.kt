@@ -22,45 +22,43 @@ class CandidataRepository @JvmOverloads constructor(
 
     suspend fun existeCorreo(correo: String): Boolean = dao.contarPorCorreo(correo.trim()) > 0
 
-    suspend fun sincronizarConServidor() {
+    suspend fun registrar(candidata: Candidata): Long {
         try {
-            val response = api.listarPostulantes()
+            val response = api.registrarPostulante(candidata)
             if (response.isSuccessful && response.body() != null) {
-                val remotas = response.body()!!
-                for (c in remotas) {
-                    if (dao.obtenerPorId(c.id) == null) {
-                        dao.insertar(c)
-                    }
-                }
+                val creada = response.body()!!
+                val id = dao.insertar(creada)
+                historial.registrar(
+                    candidataId = id,
+                    accion = Acciones.REGISTRO_CANDIDATA,
+                    detalle = "Se registró a ${creada.nombre} · ${creada.area} (MySQL / Backend)",
+                    usuario = candidata.registradaPor
+                )
+                return id
             }
         } catch (e: Exception) {
-            // Fallback offline
+            // Fallback robusto a Room local ante cualquier interrupción de red
         }
-    }
 
-    suspend fun registrar(candidata: Candidata): Long {
-        val response = api.registrarPostulante(candidata)
-        if (response.isSuccessful && response.body() != null) {
-            val creada = response.body()!!
-            val id = dao.insertar(creada)
-            historial.registrar(
-                candidataId = id,
-                accion = Acciones.REGISTRO_CANDIDATA,
-                detalle = "Se registró a ${creada.nombre} · ${creada.area} (MySQL / Backend)",
-                usuario = candidata.registradaPor
-            )
-            return id
-        } else {
-            val errorMsg = response.errorBody()?.string() ?: "Código ${response.code()}"
-            throw RuntimeException("Error al registrar en servidor: $errorMsg")
-        }
+        val id = dao.insertar(candidata)
+        historial.registrar(
+            candidataId = id,
+            accion = Acciones.REGISTRO_CANDIDATA,
+            detalle = "Se registró a ${candidata.nombre} · ${candidata.area} (Local Room)",
+            usuario = candidata.registradaPor
+        )
+        return id
     }
 
     suspend fun resolver(id: Long, estado: EstadoCandidatura, usuario: String) {
         require(estado.decision) { "Solo se puede resolver como Seleccionada o No seleccionada" }
         val actual = dao.obtenerPorId(id) ?: return
         dao.actualizarEstado(id, estado)
-        api.cambiarEstado(id, com.example.hertani.data.network.EstadoRequestDto(estado.name))
+        try {
+            api.cambiarEstado(id, com.example.hertani.data.network.EstadoRequestDto(estado.name))
+        } catch (e: Exception) {
+            // Fallback offline
+        }
         historial.registrar(
             candidataId = id,
             accion = Acciones.CANDIDATA_RESUELTA,
